@@ -46,4 +46,9 @@ public class SampleTreeModel implements TreeModel<Integer> {
 	public int width() {
 		return 3;
 	}
+	@Override
+	public void setStringConvert(StringConvert<Integer> convert) {
+		throw new UnsupportedOperationException("converter is unnesscessary");
+		
+	}
 }

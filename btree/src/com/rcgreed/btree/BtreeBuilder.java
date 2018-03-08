@@ -5,8 +5,13 @@ import java.util.Iterator;
 public class BtreeBuilder {
 	private static class NodeTreeModel<T extends Comparable<T>> implements TreeModel<T>{
 		final private Node<T> n;
+		private StringConvert<T> convert;
 		public NodeTreeModel(Node<T> nn) {
 			n=nn;
+		}
+		private NodeTreeModel(Node<T>nn,StringConvert<T> cvt) {
+			n=nn;
+			convert=cvt;
 		}
 		@Override
 		public int childCount() {
@@ -18,9 +23,9 @@ public class BtreeBuilder {
 		public TreeModel<T> childAt(int idx) {
 			if(idx==0) {
 				if(n.l==null) return null;
-				return new NodeTreeModel<>(n.l);
+				return new NodeTreeModel<>(n.l,convert);
 			}
-			return n.r==null? null:new NodeTreeModel<>(n.r);
+			return n.r==null? null:new NodeTreeModel<>(n.r,convert);
 		}
 
 		@Override
@@ -30,8 +35,13 @@ public class BtreeBuilder {
 		}
 		@Override
 		public String toString() {
-			
+			if(convert != null)
+				return convert.asString(n.e);
 			return n.e.toString();
+		}
+		@Override
+		public void setStringConvert(StringConvert<T> convert) {
+			this.convert=convert;
 		}
 		
 	}
